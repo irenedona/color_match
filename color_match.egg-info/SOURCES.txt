@@ -1,7 +1,0 @@
-setup.py
-color_match.egg-info/PKG-INFO
-color_match.egg-info/SOURCES.txt
-color_match.egg-info/dependency_links.txt
-color_match.egg-info/not-zip-safe
-color_match.egg-info/requires.txt
-color_match.egg-info/top_level.txt

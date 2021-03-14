@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules &mdash; color_match pre-alpha documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> color_match
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">color_match</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Modules</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="color_match.colorspace.ColorSpace">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">color_match.colorspace.</span></code><code class="sig-name descname"><span class="pre">ColorSpace</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_munsell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jnd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.are_comparable" title="color_match.colorspace.ColorSpace.are_comparable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">are_comparable</span></code></a>(c_1, c_2[, coeff])</p></td>
+<td><p>Given two colors as text (according to the dictionary generated in self.name2colors.keys()) or RGB255, it returns True if the colors,  embedded in CIELAB, are less than three jnd (just noticeable  difference) far apart.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.centroid" title="color_match.colorspace.ColorSpace.centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">centroid</span></code></a>(points)</p></td>
+<td><p>Computes the centroid of a list of points</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.distance_CIE76" title="color_match.colorspace.ColorSpace.distance_CIE76"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance_CIE76</span></code></a>(p1, p2)</p></td>
+<td><p>distance in CIE76 in unit of jnd</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.distance_l2" title="color_match.colorspace.ColorSpace.distance_l2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance_l2</span></code></a>(p1, p2)</p></td>
+<td><p>Computes the l2 distance between two points</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.from_rgb_to_lab" title="color_match.colorspace.ColorSpace.from_rgb_to_lab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_rgb_to_lab</span></code></a>(c)</p></td>
+<td><p>Map a color from RGB255 to CIELAB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.from_rgb_to_xyy" title="color_match.colorspace.ColorSpace.from_rgb_to_xyy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_rgb_to_xyy</span></code></a>(c)</p></td>
+<td><p>Map a color from RGB255 to xyY</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.from_xyy_to_lab" title="color_match.colorspace.ColorSpace.from_xyy_to_lab"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_xyy_to_lab</span></code></a>(c)</p></td>
+<td><p>Map a color from xyY to LAB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.get_centroid" title="color_match.colorspace.ColorSpace.get_centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_centroid</span></code></a>([color_names, with_name])</p></td>
+<td><p>Compute the centroid of a list of color names.c</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.get_munsell_reference_points" title="color_match.colorspace.ColorSpace.get_munsell_reference_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_munsell_reference_points</span></code></a>()</p></td>
+<td><p>Get the Munsell colors as reference.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.get_name" title="color_match.colorspace.ColorSpace.get_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_name</span></code></a>(point)</p></td>
+<td><p>Compute the nearest reference color in the color space <cite>self.name</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.get_points" title="color_match.colorspace.ColorSpace.get_points"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_points</span></code></a>([color_names])</p></td>
+<td><p>Get points from color names</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.init_space" title="color_match.colorspace.ColorSpace.init_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_space</span></code></a>()</p></td>
+<td><p>Given a color space name (see colorio for the list  of available color spaces).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.is_rgb" title="color_match.colorspace.ColorSpace.is_rgb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_rgb</span></code></a>(array)</p></td>
+<td><p>If True array is a color in RGB255</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.load" title="color_match.colorspace.ColorSpace.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>()</p></td>
+<td><p>Load the standard dictionary of css3 colors and maps them to rgb Color names and values are used for both as reference and test.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.not_np" title="color_match.colorspace.ColorSpace.not_np"><code class="xref py py-obj docutils literal notranslate"><span class="pre">not_np</span></code></a>(array)</p></td>
+<td><p>True if array is not a numpy ndarray</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.project_to_reference" title="color_match.colorspace.ColorSpace.project_to_reference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_to_reference</span></code></a>(p[, nearest_L, V])</p></td>
+<td><p>Get 1-NN of p with respect to Munsell’s colors</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#color_match.colorspace.ColorSpace.visualize" title="color_match.colorspace.ColorSpace.visualize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">visualize</span></code></a>()</p></td>
+<td><p>Visualize the reference colors and the Munsell reference colors  in a 3-dimensional interactive tensorboard.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.are_comparable">
+<code class="sig-name descname"><span class="pre">are_comparable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.are_comparable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.are_comparable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given two colors as text (according to the dictionary generated
+in self.name2colors.keys()) or RGB255, it returns True if the colors, 
+embedded in CIELAB, are less than three jnd (just noticeable 
+difference) far apart. False otherwise.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.centroid">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">centroid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.centroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.centroid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the centroid of a list of points</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.distance_CIE76">
+<code class="sig-name descname"><span class="pre">distance_CIE76</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.distance_CIE76"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.distance_CIE76" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>distance in CIE76 in unit of jnd</dt><dd><p>jnd = just noticeable difference</p>
+</dd>
+<dt>Args:</dt><dd><p>p1 ([type]): [description]
+p2 ([type]): [description]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.distance_l2">
+<code class="sig-name descname"><span class="pre">distance_l2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.distance_l2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.distance_l2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the l2 distance between two points</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>p1 (list): a point 
+p2 (list): a point</p>
+</dd>
+<dt>Returns:</dt><dd><p>[float]: l2 distance between p1 and p2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.from_rgb_to_lab">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">from_rgb_to_lab</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.from_rgb_to_lab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.from_rgb_to_lab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a color from RGB255 to CIELAB</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.from_rgb_to_xyy">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">from_rgb_to_xyy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.from_rgb_to_xyy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.from_rgb_to_xyy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a color from RGB255 to xyY</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.from_xyy_to_lab">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">from_xyy_to_lab</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.from_xyy_to_lab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.from_xyy_to_lab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a color from xyY to LAB</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.get_centroid">
+<code class="sig-name descname"><span class="pre">get_centroid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.get_centroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.get_centroid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the centroid of a list of color names.c</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>color_names (list, optional): A list of color names. Defaults to [].
+with_name (bool, optional): If True the name corresponding to the nearest
+reference color is returned. Defaults to True.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: centroid of the colors as represented in the color space
+<cite>self.name</cite> 
+str: name of reference color nearest to the centroid in <cite>self.name</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.get_munsell_reference_points">
+<code class="sig-name descname"><span class="pre">get_munsell_reference_points</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.get_munsell_reference_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.get_munsell_reference_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Munsell colors as reference. 
+This is a way to discretize the CIELAB color space in 10 (L_i, a, b)
+planes, where L_i are constants corresponding to V in the Munsell
+color space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.get_name">
+<code class="sig-name descname"><span class="pre">get_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.get_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the nearest reference color in the color space <cite>self.name</cite></p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>point (list): a point in the color space <cite>self.name</cite></p>
+</dd>
+<dt>Returns:</dt><dd><p>list: the first nearest neighbor to point among the reference colors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.get_points">
+<code class="sig-name descname"><span class="pre">get_points</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.get_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.get_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get points from color names</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>color_names (list, optional): A list of color names. Defaults to None.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: points corresponding to the names listed in color_names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.init_space">
+<code class="sig-name descname"><span class="pre">init_space</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.init_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.init_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a color space name (see colorio for the list 
+of available color spaces). It maps the reference css3 
+colors to points in the space of choice.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.is_rgb">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">is_rgb</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.is_rgb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.is_rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>If True array is a color in RGB255</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.load">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the standard dictionary of css3 colors and maps them to rgb
+Color names and values are used for both as reference and test.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.not_np">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">not_np</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.not_np"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.not_np" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if array is not a numpy ndarray</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.project_to_reference">
+<code class="sig-name descname"><span class="pre">project_to_reference</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nearest_L</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.project_to_reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.project_to_reference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get 1-NN of p with respect to Munsell’s colors</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>p (list): a point representing a color in <cite>self.name</cite>
+nearest_L (bool, optional): If True computes the nearest
+Munsell’s plane to the inputted point. Defaults to False.
+V (int, optional): Value in Munsell space [0, …, 9]. 
+Defaults to None. If not None it returns the closest Munsell 
+points to p on the plane (V, a, b)</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: A point among the Munsell reference points</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="color_match.colorspace.ColorSpace.visualize">
+<code class="sig-name descname"><span class="pre">visualize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/colorspace.html#ColorSpace.visualize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.colorspace.ColorSpace.visualize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize the reference colors and the Munsell reference colors 
+in a 3-dimensional interactive tensorboard.
+After running this method, run in the terminal
+<cite>tensorboard –logdir ./emebddings/test</cite>
+and follow the instructions</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-color_match.distance_table"></span><dl class="py function">
+<dt id="color_match.distance_table.color_centroid">
+<code class="sig-prename descclassname"><span class="pre">color_match.distance_table.</span></code><code class="sig-name descname"><span class="pre">color_centroid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/distance_table.html#color_centroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.distance_table.color_centroid" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the two colors match it returns the centroid
+w.r.t. the reference colors</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="color_match.distance_table.generate_color_tables">
+<code class="sig-prename descclassname"><span class="pre">color_match.distance_table.</span></code><code class="sig-name descname"><span class="pre">generate_color_tables</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/distance_table.html#generate_color_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.distance_table.generate_color_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate result table having as colomns 
+- color1: reference color name and the corresponding hex color as bkg
+- color2: candidate match and the corresponding hex color as bkg
+- match: True if the two colors match
+- distance: distance in j.n.d. between the two colors</p>
+<blockquote>
+<div><p>and centroid color as background</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt id="color_match.distance_table.generate_match_table">
+<code class="sig-prename descclassname"><span class="pre">color_match.distance_table.</span></code><code class="sig-name descname"><span class="pre">generate_match_table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colorspace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/distance_table.html#generate_match_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.distance_table.generate_match_table" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Generate  dataframe with all possible combination of hex colors,</dt><dd><p>their match (i.e. if they correspond to the same color 
+within a given tolerance level) and their distance.</p>
+</dd>
+<dt>Args:</dt><dd><p>colorspace (ColorSpace): instance of ColorSpace
+pairs (list): list of pairs of color names</p>
+</dd>
+<dt>Returns:</dt><dd><p>[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="color_match.distance_table.get_pairs">
+<code class="sig-prename descclassname"><span class="pre">color_match.distance_table.</span></code><code class="sig-name descname"><span class="pre">get_pairs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/distance_table.html#get_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.distance_table.get_pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate pairs of elements in list without repetitions</p>
+</dd></dl>
+
+<span class="target" id="module-color_match.visualize"></span><dl class="py class">
+<dt id="color_match.visualize.EmbeddingVisualiser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">color_match.visualize.</span></code><code class="sig-name descname"><span class="pre">EmbeddingVisualiser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feat_cols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/color_match/visualize.html#EmbeddingVisualiser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.visualize.EmbeddingVisualiser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Visualize an embedding in tensorboard</p>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 57%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>visualize</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-color_match.exceptions"></span><dl class="py exception">
+<dt id="color_match.exceptions.UndefinedSpace">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">color_match.exceptions.</span></code><code class="sig-name descname"><span class="pre">UndefinedSpace</span></code><a class="reference internal" href="_modules/color_match/exceptions.html#UndefinedSpace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#color_match.exceptions.UndefinedSpace" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Irene Donato.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

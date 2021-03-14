@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>color_match.distance_table &mdash; color_match pre-alpha documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> color_match
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">color_match</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>color_match.distance_table</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for color_match.distance_table</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">color_match.colorspace</span> <span class="kn">import</span> <span class="n">ColorSpace</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<div class="viewcode-block" id="get_pairs"><a class="viewcode-back" href="../../modules.html#color_match.distance_table.get_pairs">[docs]</a><span class="k">def</span> <span class="nf">get_pairs</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate pairs of elements in list without repetitions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="generate_match_table"><a class="viewcode-back" href="../../modules.html#color_match.distance_table.generate_match_table">[docs]</a><span class="k">def</span> <span class="nf">generate_match_table</span><span class="p">(</span><span class="n">colorspace</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate  dataframe with all possible combination of hex colors,</span>
+<span class="sd">       their match (i.e. if they correspond to the same color </span>
+<span class="sd">       within a given tolerance level) and their distance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        colorspace (ColorSpace): instance of ColorSpace</span>
+<span class="sd">        pairs (list): list of pairs of color names</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [pd.DataFrame]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">),</span> <span class="mi">4</span><span class="p">)),</span> 
+                      <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;color1&quot;</span><span class="p">,</span> <span class="s2">&quot;color2&quot;</span><span class="p">,</span> <span class="s2">&quot;match&quot;</span><span class="p">,</span> <span class="s2">&quot;distance(in_jnd)&quot;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;evaluating test color pairs&quot;</span><span class="p">)):</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p1</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">p2</span>
+        <span class="n">dist</span><span class="p">,</span> <span class="n">match</span> <span class="o">=</span><span class="n">colorspace</span><span class="o">.</span><span class="n">are_comparable</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">match</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+<div class="viewcode-block" id="color_centroid"><a class="viewcode-back" href="../../modules.html#color_match.distance_table.color_centroid">[docs]</a><span class="k">def</span> <span class="nf">color_centroid</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;If the two colors match it returns the centroid</span>
+<span class="sd">       w.r.t. the reference colors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">match</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">colorspace</span><span class="o">.</span><span class="n">get_centroid</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">color1</span><span class="p">,</span><span class="n">row</span><span class="o">.</span><span class="n">color2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">colorspace</span><span class="o">.</span><span class="n">name2hex</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="generate_color_tables"><a class="viewcode-back" href="../../modules.html#color_match.distance_table.generate_color_tables">[docs]</a><span class="k">def</span> <span class="nf">generate_color_tables</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Generate result table having as colomns </span>
+<span class="sd">       - color1: reference color name and the corresponding hex color as bkg</span>
+<span class="sd">       - color2: candidate match and the corresponding hex color as bkg</span>
+<span class="sd">       - match: True if the two colors match</span>
+<span class="sd">       - distance: distance in j.n.d. between the two colors </span>
+<span class="sd">        and centroid color as background</span>
+<span class="sd">       </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">colorspace</span> <span class="o">=</span> <span class="n">ColorSpace</span><span class="p">()</span>
+    <span class="n">pairs</span> <span class="o">=</span> <span class="n">get_pairs</span><span class="p">(</span><span class="n">colorspace</span><span class="o">.</span><span class="n">color_names</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">generate_match_table</span><span class="p">(</span><span class="n">colorspace</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">pairs</span><span class="p">))</span>
+    <span class="n">df1</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">match</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;background-color: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">colorspace</span><span class="o">.</span><span class="n">name2hex</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">color1</span><span class="p">]),</span>
+                          <span class="s1">&#39;background-color: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">colorspace</span><span class="o">.</span><span class="n">name2hex</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">color2</span><span class="p">]),</span>
+                          <span class="s1">&#39;background-color: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">color_centroid</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+                                       <span class="kc">None</span>  <span class="c1"># x[&quot;distance(in_jnd)&quot;]</span>
+                         <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s1">&#39;./test_match_true.xlsx&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">)</span>
+    <span class="n">df1</span><span class="p">[</span><span class="n">df1</span><span class="o">.</span><span class="n">match</span><span class="o">==</span><span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;background-color: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">colorspace</span><span class="o">.</span><span class="n">name2hex</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">color1</span><span class="p">]),</span>
+                          <span class="s1">&#39;background-color: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">colorspace</span><span class="o">.</span><span class="n">name2hex</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">color2</span><span class="p">]),</span>
+                          <span class="s1">&#39;background-color: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">color_centroid</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+                                       <span class="kc">None</span>  <span class="c1"># x[&quot;distance(in_jnd)&quot;]</span>
+                         <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s1">&#39;./test_match_false.xlsx&#39;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">generate_color_tables</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Irene Donato.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

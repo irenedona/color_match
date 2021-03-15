@@ -38,8 +38,8 @@ def color_centroid(row):
        w.r.t. the reference colors
     """
     if row.match:
-        c = colorspace.get_centroid([row.color1,row.color2])
-        return colorspace.name2hex[c[1]]
+        c_point, c_name = colorspace.get_centroid([row.color1,row.color2])
+        return colorspace.name2hex[c_name]
     return None
 
 def generate_color_tables():

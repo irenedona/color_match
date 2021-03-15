@@ -146,7 +146,7 @@ class ColorSpace:
         if with_name:
             centroid_name = self.get_name(centroid)
             return centroid, centroid_name
-        return centroid
+        return centroid, None
 
     def get_name(self, point):
         """Compute the nearest reference color in the color space `self.name`
@@ -225,7 +225,6 @@ class ColorSpace:
         in self.name2colors.keys()) or RGB255, it returns True if the colors, 
         embedded in CIELAB, are less than three jnd (just noticeable 
         difference) far apart. False otherwise.
-        
         """
         if (c_1 in self.name2point and c_2 in self.name2point):
             c_1 = self.name2point[c_1]

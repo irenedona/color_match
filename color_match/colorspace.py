@@ -15,7 +15,7 @@ import pandas as pd
 
 
 class ColorSpace:
-    def __init__(self, name='lab', to_munsell=False, jnd=2.3):
+    def __init__(self, name='lab', include_munsell=False, jnd=2.3):
         """Class implementing a color space. It allows to load standard and Munsell's 
         colors as references. It maps references to a color space (see colorio for
         a detailed list of the available color spaces), CIELAB by default.
@@ -25,13 +25,13 @@ class ColorSpace:
 
         Args:
             name (str, optional): A color space name. Defaults to 'lab'.
-            to_munsell (bool, optional): If True load Munsell's colors as reference. 
+            include_munsell (bool, optional): If True load Munsell's colors as reference. 
             Defaults to False.
             jnd (float, optional): The Just Noticeable Distance constant. 
             Defaults to 2.3.
         """
         self.name=name
-        self.to_munsell = to_munsell
+        self.include_munsell = include_munsell
         self.jnd=jnd
         self.color_names, self.color_rgb, self.color_hex= self.load()
         self.name2rgb = {n: p for n, p in zip(self.color_names, self.color_rgb)}
@@ -41,7 +41,7 @@ class ColorSpace:
         self.name2point = {n: p 
             for n, p in zip(self.color_names, self.points)
         }
-        if self.to_munsell:
+        if self.include_munsell:
             self.reference_points = self.get_munsell_reference_points()
             self.reference_tree = KDTree(self.reference_points)
 
@@ -179,48 +179,31 @@ class ColorSpace:
             p1, p2 = np.array(p1), np.array(p2)
         return np.linalg.norm(p1 - p2)
     
-    def project_to_reference(self, p, nearest_L=False, V = None):
-        """Get 1-NN of p with respect to Munsell's colors
-
-        Args:
-            p (list): a point representing a color in `self.name`
-            nearest_L (bool, optional): If True computes the nearest
-            Munsell's plane to the inputted point. Defaults to False.
-            V (int, optional): Value in Munsell space [0, ..., 9]. 
-            Defaults to None. If not None it returns the closest Munsell 
-            points to p on the plane (V, a, b)
-
-        Returns:
-            list: A point among the Munsell reference points
+    def adjusted_lab_distance(self, p1, p2, year = "2000"):
         """
-        
-        assert self.hasattr(self, "reference_points"), "Specify a list of reference colors"
-        if nearest_L:
-            munsell_ls = np.unique(self.reference_points[:,0])
-            ind = np.argmin([p[0] - ml for ml in munsell_ls])
-            subset_munsell = np.array([mp for mp in self.reference_points 
-                                       if mp[0] == munsell_ls[ind]])
-            subtree = KDTree(subset_munsell)
-            _, index = subtree.query(p)    
-        elif V is not None:
-            munsell_ls = np.unique(self.reference_points[:,0])
-            ind = V
-            subset_munsell = np.array([mp for mp in self.reference_points 
-                                       if mp[0] == munsell_ls[ind]])
-            subtree = KDTree(subset_munsell)
-            _, index = subtree.query(p)    
+        if year is 1994, calculates the Delta E (CIE1994) of two colors.
+        if year is 2000, calculates the Delta E (CIE2000) of two colors.
+        """
+        if self.name != "lab":
+            print("Adjusted_lab_distance can only \
+                be used with two LabColor objects.")
+        if year == "1994":
+            return colorio.diff.cie94(p1, p2, 
+                                      K_L=2, K_1=0.048, K_2=0.014)
+        elif year == "2000":
+            return colorio.diff.ciede2000(p1, p2)
         else:
-            _, index = self.reference_tree.query(p)
-            
-        return self.reference_points[index]
-    
+            print("warning: you selected non-adjusted distance \
+                (Euclidean one)")
+            return self.distance_l2(p1, p2)
+  
     @staticmethod
     def is_rgb(array):
         """If True array is a color in RGB255
         """
         return len(array) == 3 and all(a >= 0 and a < 255 for a in array)
     
-    def are_comparable(self, c_1, c_2, coeff = 3):
+    def are_comparable(self, c_1, c_2, coeff = 3, year= "2000"):
         """Given two colors as text (according to the dictionary generated
         in self.name2colors.keys()) or RGB255, it returns True if the colors, 
         embedded in CIELAB, are less than three jnd (just noticeable 
@@ -232,18 +215,18 @@ class ColorSpace:
         elif self.is_rgb(c_1) and self.is_rgb(c_2):
             c_1 = from_rgb_to_lab(c_1)
             c_2 = from_rgb_to_lab(c_2)
-        distance = self.distance_CIE76(c_1, c_2)
+        distance = self.distance_in_jnd(c_1, c_2, year="2000")
         return distance, distance < coeff
             
         
-    def distance_CIE76(self, p1, p2):
+    def distance_in_jnd(self, p1, p2, year="2000"):
         """distance in CIE76 in unit of jnd
            jnd = just noticeable difference
         Args:
             p1 ([type]): [description]
             p2 ([type]): [description]
         """
-        return self.distance_l2(p1,p2)/self.jnd
+        return self.adjusted_lab_distance(p1,p2, year=year)/self.jnd
     
     def visualize(self):
         """Visualize the reference colors and the Munsell reference colors 
@@ -257,10 +240,12 @@ class ColorSpace:
         df.reset_index(inplace=True)
         df.columns=["colors", *list(self.name)]
         df["is_reference"] = "0"
-        if self.to_munsell:
+        if self.include_munsell:
             df_m = pd.DataFrame(self.reference_points, 
                                 columns=list(self.name))
-            df_m["is_reference"] = "1"
+            munsell_ls = np.unique(self.reference_points[:,0])
+            munsell_l_dict = {l: i+1 for i, l in enumerate(munsell_ls)}
+            df_m["is_reference"] = [str(munsell_l_dict[c[0]]) for c in self.reference_points]  
             df_m["colors"] = [str(i) + "_Munsell" 
                               for i in range(len(self.reference_points))]
             df = pd.concat([df, df_m])
@@ -273,7 +258,7 @@ class ColorSpace:
 
 if __name__ == "__main__":
 
-    color_space = ColorSpace(to_munsell=True)
+    color_space = ColorSpace(include_munsell=True)
     color_space.visualize()
     
 

@@ -1,1 +1,3 @@
 *.egg-info
+project_to_reference.py
+*.pyc

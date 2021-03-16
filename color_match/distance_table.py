@@ -4,6 +4,7 @@ import pandas as pd
 from color_match.colorspace import ColorSpace
 import numpy as np
 from tqdm import tqdm
+from colormath.color_objects import LabColor
 
 def get_pairs(list):
     """Generate pairs of elements in list without repetitions
@@ -28,12 +29,12 @@ def generate_match_table(colorspace, pairs):
     for i, (p1, p2) in enumerate(tqdm(pairs, desc="evaluating test color pairs")):
         df.iloc[i, 0] = p1
         df.iloc[i, 1] = p2
-        dist, match =colorspace.are_comparable(p1, p2)
+        dist, match =colorspace.are_comparable(p1, p2, coeff=6.73)
         df.iloc[i, 2] = match
         df.iloc[i, 3] = dist
     return df
 
-def color_centroid(row):
+def color_centroid(row, colorspace):
     """If the two colors match it returns the centroid
        w.r.t. the reference colors
     """
@@ -57,14 +58,14 @@ def generate_color_tables():
     df1 = df.copy()
     df[df.match==True].style.apply(lambda x: ['background-color: {}'.format(colorspace.name2hex[x.color1]),
                           'background-color: {}'.format(colorspace.name2hex[x.color2]),
-                          'background-color: {}'.format(color_centroid(x)),
+                          'background-color: {}'.format(color_centroid(x, colorspace)),
                                        None  # x["distance(in_jnd)"]
-                         ], axis=1).to_excel('./test_match_true.xlsx', engine='openpyxl')
+                         ], axis=1).to_excel('./test_match_true2000.xlsx', engine='openpyxl')
     df1[df1.match==False].style.apply(lambda x: ['background-color: {}'.format(colorspace.name2hex[x.color1]),
                           'background-color: {}'.format(colorspace.name2hex[x.color2]),
-                          'background-color: {}'.format(color_centroid(x)),
+                          'background-color: {}'.format(color_centroid(x, colorspace)),
                                        None  # x["distance(in_jnd)"]
-                         ], axis=1).to_excel('./test_match_false.xlsx', engine='openpyxl')
+                         ], axis=1).to_excel('./test_match_false2000.xlsx', engine='openpyxl')
     return
 
 if __name__=="__main__":

@@ -8,7 +8,7 @@ Although `color_match` is colorspace agnostic, it uses by default the CIELAB spa
 
 The collection of 136 named hex colors (from the webcolor package) served as a test set. Matches between the 9180 pairs are computed with the adjusted perceptual distance CIEDE2000 and gave the following results:
 
-<img src="/static/true.png" > 
+<img src="/static/true.png" width = "66%"> 
 <img src="/static/false.png" width = "66%">
 
 #### How to install

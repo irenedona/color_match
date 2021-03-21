@@ -197,6 +197,28 @@ class ColorSpace:
                 (Euclidean one)")
             return self.distance_l2(p1, p2)
   
+    def similarity(self, p1, p2, year = "2000"):
+        """return similarity between colors p1 and p2.
+        Similarity is computed by estimating the maximum distance among
+        pairs of reference colors. In this case, considering the css3 
+        hexcolor list, we identified `greenyellow` and `navy` as the most 
+        distant color in our sampling of CIELAB (CIEDE2000). 
+        Let d_max be their distance.
+        
+        The similarity is computed as 
+        1 - d(p1, p2) / d_max
+        """
+        p_greenyellow = self.name2point["greenyellow"]
+        p_navy = self.name2point["navy"]
+        p1 = self.name2point[p1]
+        p2 = self.name2point[p2]
+        max_dist = self.distance_in_jnd(p_greenyellow, 
+                                        p_navy,
+                                        year = year)
+        dist = self.distance_in_jnd(p1, p2,
+                                        year = year)
+        return 1. - (dist/max_dist)
+  
     @staticmethod
     def is_rgb(array):
         """If True array is a color in RGB255

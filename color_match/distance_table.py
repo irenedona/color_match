@@ -23,15 +23,17 @@ def generate_match_table(colorspace, pairs):
     Returns:
         [pd.DataFrame]
     """
-    df =  pd.DataFrame(np.zeros((len(pairs), 4)), 
-                      columns = ["color1", "color2", "match", "distance(in_jnd)"])
+    df =  pd.DataFrame(np.zeros((len(pairs), 5)), 
+                      columns = ["color1", "color2", "match", "distance(in_jnd)", "similarity"])
 
     for i, (p1, p2) in enumerate(tqdm(pairs, desc="evaluating test color pairs")):
         df.iloc[i, 0] = p1
         df.iloc[i, 1] = p2
-        dist, match =colorspace.are_comparable(p1, p2, coeff=6.73)
+        dist, match =colorspace.are_comparable(p1, p2, coeff=9)
         df.iloc[i, 2] = match
         df.iloc[i, 3] = dist
+        s = colorspace.similarity(p1, p2)
+        df.iloc[i, 4] = s
     return df
 
 def color_centroid(row, colorspace):
@@ -43,7 +45,7 @@ def color_centroid(row, colorspace):
         return colorspace.name2hex[c_name]
     return None
 
-def generate_color_tables():
+def generate_color_tables(allpairs=True, colorselection=set()):
     """Generate result table having as colomns 
        - color1: reference color name and the corresponding hex color as bkg
        - color2: candidate match and the corresponding hex color as bkg
@@ -53,20 +55,42 @@ def generate_color_tables():
        
     """
     colorspace = ColorSpace()
-    pairs = get_pairs(colorspace.color_names)
-    df = generate_match_table(colorspace, list(pairs))
+    if allpairs:
+        pairs = get_pairs(colorspace.color_names)
+        output_name = "static/test_match_"
+    else:
+        pairs = get_pairs(colorselection)
+        output_name = "static/test_match_reduced_"
+    df = generate_match_table(colorspace, list(pairs)).sort_values(by='similarity', ascending=False)
     df1 = df.copy()
+    
+
     df[df.match==True].style.apply(lambda x: ['background-color: {}'.format(colorspace.name2hex[x.color1]),
                           'background-color: {}'.format(colorspace.name2hex[x.color2]),
                           'background-color: {}'.format(color_centroid(x, colorspace)),
-                                       None  # x["distance(in_jnd)"]
-                         ], axis=1).to_excel('./test_match_true2000.xlsx', engine='openpyxl')
+                                       None,
+                                       None 
+                         ], axis=1).to_excel(output_name+'true2000.xlsx', engine='openpyxl')
     df1[df1.match==False].style.apply(lambda x: ['background-color: {}'.format(colorspace.name2hex[x.color1]),
                           'background-color: {}'.format(colorspace.name2hex[x.color2]),
                           'background-color: {}'.format(color_centroid(x, colorspace)),
-                                       None  # x["distance(in_jnd)"]
-                         ], axis=1).to_excel('./test_match_false2000.xlsx', engine='openpyxl')
-    return
+                                       None,
+                                       None
+                         ], axis=1).to_excel(output_name+'false2000.xlsx', engine='openpyxl')
+
+
+def generate_color_tables_reduced():
+    selected_colors = {'darkblue', 'darkgreen', 'darkgrey',
+    'darkolivegreen', 'darkorange', 'darkred', 'darkseagreen',
+    'darkslategrey', 'darkviolet', 'lightblue',
+    'lightgreen', 'lightgrey',
+    'lightpink', 'lightseagreen', 'lightskyblue', 'lightslategrey',
+    'lightsteelblue', 'lightyellow', 'azure', 'blue',
+    'red', 'yellow', 'green', 'grey',
+    'pink', 'white', 'violet', 'orange', 'brown'}
+    generate_color_tables(allpairs=False, colorselection=selected_colors)
+
 
 if __name__=="__main__":
     generate_color_tables()
+    generate_color_tables_reduced()

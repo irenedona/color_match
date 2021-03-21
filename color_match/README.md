@@ -2,13 +2,47 @@
 
 Perception is, by its very nature, subjective. The `color_match` Python package tackles the problem of estimating color similarity based on color names (i.e., text).
 
-As a practical case, if two observers describe potentially different shirts by their color, often, it is desirable to compute a distance between the two descriptions in an as principled as possible fashion from the perceptual viewpoint.
+As a practical case, if two observers describe potentially different shirts by their color, often, it is desirable to compute a perceptual distance between the two descriptions.
 
 Although `color_match` is colorspace agnostic, it uses by default the CIELAB space and computes distances between points in CIELAB with an adjusted metric (CIEDE2000). This metric makes CIELAB as uniform as possible for human color perception (details and references below).
 
-The collection of 136 named hex colors (from the webcolor package) served as a test set. Matches between the 9180 pairs are computed with the adjusted perceptual distance CIEDE2000 and gave the following results:
+The collection of 136 named hex colors (from the webcolor package) served as a test set. Matches between the 9180 pairs are computed with the adjusted perceptual distance CIEDE2000.
+
+### Distance threshold
+
+A measure of similarity among colors is calculated from the distance as 1 - *relative distance* where *relative distance* is the ratio between the distance between two given colors and the maximum estimated distance.
+
+
+Match between two colors (i.e. if they can confused or not) is estavblished by thresholding the pairwise color distance. The threshold can vary depending on the application and inputted in the following method:
+```python
+from color_match.colorspace import Colorspace
+c = ColorSpace()
+c.are_comparable(self, c_1, c_2, coeff = 3, year= "2000")
+```
+The `are_comparable` method returns the distance between the colors c_1 and c_2, and a boolean stating if they match (can be confused) or not (the colors are perceptually distant).
+
+
+### Application
+
+The aim is to claim if two colors described from memory could be variation of the same color as perceived by different people, in different situations. 
+
+For this reason, the threshold mentioned before has to be set to a high enough value. In this case, computed by estimating 1/4 arc-length at fixed luminosity and saturation (average luminosity and high saturation) in the CIELAB space and using the CIEDE2000 distance. This means that colors lying in the same a* b* plane in LAB can be distinguished only if at least on quarter of the circle centered on the L-axis apart. This threshold corresponds to 9 times the just-noticeable-difference in CIEDE2000.
+
+Results are listed in the following tables.
+
+**Table 1: Matching colors**. We list here pairs of most common colors that, according to the model just described, could be referred to as the same color (i.e. they match).
+
+*Table structure:* 
+- columns **color1** and **color2** report the name of the color and use the same color as a background. 
+- The **match** column is always True for only matching (confusable) pairs are considered in this table. The background color is the mean color between the considered color pairs.
+- The **similarity** column gives the similarity value between the colors, it is 1 if the two colors are perceptually indistinguishable and 0 if they are at opposite extreme of the CIELAB space equipped with CIEDE2000 metrics. This value can be interpreted as the probability of two colors being swapped in describing an object by memory. 
 
 <img src="/static/true.png" width = "66%"> 
+
+**Table 2: Mismatching colors**. Here are listed colors that lie far enough in the color space to be considered not confusable even when recalling them from memory.
+
+The column `match` this time has not background color, indeed the mean color would make no perceptual sense, being `color1` and `color2` so perceptually far. 
+
 <img src="/static/false.png" width = "66%">
 
 #### How to install
